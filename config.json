@@ -1,0 +1,31 @@
+{
+  "gemini_api_key": "",
+  "gemini_model": "gemini-3.8-flash",
+  "crop_mode": "center_zoom",
+  "bg_blur_style": "cinematic",
+  "enable_hook_title": true,
+  "hook_title_style": "bold_headline",
+  "hook_title_color": "yellow",
+  "subtitle_position": "bottom_safe",
+  "caption_highlight": "yellow",
+  "caption_font": "Arial",
+  "default_min_duration": 30,
+  "default_max_duration": 60,
+  "absolute_min_duration": 15,
+  "absolute_max_duration": 90,
+  "target_clip_count": 5,
+  "output_width": 1080,
+  "output_height": 1920,
+  "fps": 30,
+  "caption_style": {
+    "font_name": "Arial Black",
+    "font_size": 50,
+    "primary_color": "&H00FFFFFF",
+    "highlight_color": "&H0000FFFF",
+    "outline_color": "&H00000000",
+    "outline_width": 4.0,
+    "shadow_depth": 2.0,
+    "margin_v": 260,
+    "max_words_per_batch": 4
+  }
+}

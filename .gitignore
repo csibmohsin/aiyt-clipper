@@ -1,0 +1,42 @@
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Video Render Outputs (Keep directory with .gitkeep)
+OUTPUT/*
+!OUTPUT/.gitkeep
+
+# Temporary downloads and frames
+*.mp4
+*.mkv
+*.webm
+*.avi
+*.jpg
+*.jpeg
+*.png
+*.ass
+*.srt
+debug_frames/
+
+# Allow screenshots for documentation
+!screenshots/**
+!screenshots/*.png
+!screenshots/*.jpg
+
+# Environment and Secrets
+.env
+*.local.json
+
+# IDE & OS Files
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+

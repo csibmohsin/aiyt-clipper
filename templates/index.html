@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Clipper for Instagram & Youtube Shorts | AIYT Clipper</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Navigation Bar -->
+    <header class="navbar">
+      <div class="nav-container">
+        <div class="brand">
+          <div class="logo-icon">⚡</div>
+          <div class="brand-text">
+            <h1>AIYT Clipper<span class="gradient-text"></span></h1>
+            <span class="badge">Shorts & Reels &bull; By Mohsin Khawaja</span>
+          </div>
+        </div>
+        <div class="nav-actions">
+          <a href="https://www.instagram.com/csib.mohsin/" target="_blank" rel="noopener noreferrer" class="nav-instagram" title="Follow Mohsin Khawaja on Instagram">
+            📸 <span>@csib.mohsin</span>
+          </a>
+          <button id="btnSettings" class="btn-ghost" title="Settings">⚙️ Settings</button>
+          <button id="btnHistory" class="btn-ghost" title="Past Projects">📁 Projects History</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+      <!-- Hero & URL Input Section -->
+      <section class="hero-section">
+        <div class="hero-pill">
+          <span class="pill-sparkle">✨</span>
+          <span>Autonomous AI Video Repurposing Studio</span>
+        </div>
+
+        <div class="hero-header">
+          <h2 class="hero-title">AI Clipper for <span class="gradient-text">Instagram & YouTube Shorts</span></h2>
+          <p class="hero-subtitle">Transform long-form YouTube videos into high-retention 9:16 vertical shorts, reels, and TikToks with kinetic karaoke subtitles, active face tracking, and viral hook analysis.</p>
+        </div>
+
+        <div class="url-input-card">
+          <div class="input-group">
+            <span class="input-icon">🔗</span>
+            <input 
+              type="text" 
+              id="youtubeUrl" 
+              placeholder="Paste YouTube Video URL here (e.g. https://www.youtube.com/watch?v=...)" 
+              autocomplete="off"
+            />
+            <button id="btnStart" class="btn-primary">
+              <span class="btn-icon">⚡</span>
+              <span class="btn-text">Generate Clips</span>
+            </button>
+          </div>
+          <div class="input-hints">
+            <span class="hint-tag"><span class="hint-icon">🎯</span> Auto Hook Detection</span>
+            <span class="hint-tag"><span class="hint-icon">👤</span> Face-Aware Smart Crop</span>
+            <span class="hint-tag"><span class="hint-icon">📝</span> Kinetic Karaoke Captions</span>
+            <span class="hint-tag"><span class="hint-icon">⚡</span> 1080×1920 60FPS</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active Job Progress Section (Hidden initially) -->
+      <section id="progressSection" class="progress-section hidden">
+        <div class="progress-card">
+          <div class="progress-header">
+            <div class="progress-status-info">
+              <div class="spinner"></div>
+              <div>
+                <h3 id="progressStage" class="progress-stage">Analyzing Video...</h3>
+                <p id="progressMessage" class="progress-msg">Initializing pipeline and verifying dependencies</p>
+              </div>
+            </div>
+            <div class="progress-percent" id="progressPercent">0%</div>
+          </div>
+
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+          </div>
+
+          <!-- Live Step Checklist -->
+          <div class="steps-tracker">
+            <div class="step-item" id="stepMeta">
+              <span class="step-dot"></span>
+              <span class="step-name">1. Metadata & Source Download</span>
+            </div>
+            <div class="step-item" id="stepTranscript">
+              <span class="step-dot"></span>
+              <span class="step-name">2. Timestamped Transcription</span>
+            </div>
+            <div class="step-item" id="stepAI">
+              <span class="step-dot"></span>
+              <span class="step-name">3. AI Hook & Moment Scoring</span>
+            </div>
+            <div class="step-item" id="stepRender">
+              <span class="step-dot"></span>
+              <span class="step-name">4. 9:16 Smart Crop & ASS Captions</span>
+            </div>
+            <div class="step-item" id="stepQC">
+              <span class="step-dot"></span>
+              <span class="step-name">5. Quality Control & Report</span>
+            </div>
+          </div>
+
+          <!-- Collapsible Terminal Log -->
+          <details class="console-box">
+            <summary class="console-summary">View Processing Logs</summary>
+            <div class="console-logs" id="consoleLogs"></div>
+          </details>
+        </div>
+      </section>
+
+      <!-- Generated Clips Gallery Section (Shown when done) -->
+      <section id="resultsSection" class="results-section hidden">
+        <div class="results-header">
+          <div>
+            <h2 id="videoTitleDisplay" class="results-title">Generated Clips</h2>
+            <p id="videoMetaDisplay" class="results-subtitle"></p>
+          </div>
+          <div class="results-actions">
+            <a id="btnOpenReport" href="#" target="_blank" class="btn-secondary">📊 Open Full HTML Report</a>
+          </div>
+        </div>
+
+        <div id="clipsGrid" class="clips-grid">
+          <!-- Dynamic Clip Cards will be rendered here -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>⚙️ Application Settings</h3>
+          <button id="btnCloseSettings" class="btn-close">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="settings-section-title" style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--accent-primary); letter-spacing:0.5px; margin-top:4px;">
+            🎬 Cropping & Visual Layout
+          </div>
+
+          <div class="form-group">
+            <label for="cfgCropMode">Cropping Layout Preference</label>
+            <select id="cfgCropMode">
+              <option value="center_zoom">✨ Center-Region Zoom Crop (0.96:1) + Blurred BG (Best for Reactions & Gaming)</option>
+              <option value="smart_crop">👤 Full-Frame 9:16 Smart Face Crop (Zero Bars, Best for Podcasts, Vlogs & Speeches)</option>
+              <option value="split_screen">⚡ Split Screen Dual Stack (50/50 Top Gameplay + Bottom Streamer Facecam)</option>
+              <option value="blurred_bg">📺 Classic 16:9 Letterbox on Blurred Canvas (Best for Slides & Tutorials)</option>
+              <option value="auto">🤖 Auto-Adaptive (AI Chooses Optimal Layout per Scene)</option>
+            </select>
+            <span class="field-hint">Choose how horizontal 16:9 footage is reframed into 9:16 vertical canvas for Reels & Shorts.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="cfgBgBlur">Background Canvas Style</label>
+            <select id="cfgBgBlur">
+              <option value="cinematic">Cinematic Ambient (22px soft blur with subtle dark vignette)</option>
+              <option value="heavy">Heavy Frosted Glass (40px deep blur)</option>
+              <option value="subtle">Subtle Ambient Glow (10px light blur)</option>
+              <option value="black_bars">Solid Midnight Black Bars (No Blur)</option>
+            </select>
+            <span class="field-hint">Defines the background fill behind letterboxed or zoomed footage.</span>
+          </div>
+
+          <div class="settings-section-title" style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--accent-primary); letter-spacing:0.5px; margin-top:8px;">
+            🔥 Top AI Hook Title
+          </div>
+
+          <div class="form-group">
+            <label for="cfgEnableHookTitle">AI Hook Title (Top Header)</label>
+            <select id="cfgEnableHookTitle">
+              <option value="true">✨ Enabled (Recommended — Curiosity-Driven Viral Top Headline)</option>
+              <option value="false">❌ Disabled (Captions Only, No Top Title)</option>
+            </select>
+            <span class="field-hint">Automatically places an engaging, scroll-stopping headline in the empty space above the video.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="cfgHookTitleStyle">Hook Title Visual Style</label>
+            <select id="cfgHookTitleStyle">
+              <option value="bold_headline">⚡ Dual-Tone Viral Headline (White & Electric Yellow with Stroke)</option>
+              <option value="solid_yellow">🟡 High-Contrast Electric Yellow</option>
+              <option value="solid_white">⚪ Clean Modern White</option>
+            </select>
+          </div>
+
+          <div class="settings-section-title" style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--accent-primary); letter-spacing:0.5px; margin-top:8px;">
+            📝 Captions & Typography
+          </div>
+
+          <div class="form-group">
+            <label for="cfgSubPos">Subtitle Safe Position</label>
+            <select id="cfgSubPos">
+              <option value="bottom_safe">Bottom Safe Zone (Standard Reels & Shorts area — never covers faces)</option>
+              <option value="above_facecam">Mid-Screen / Above Streamer Head (High visibility focus)</option>
+              <option value="center">Center Screen Pop (High energy dynamic punch)</option>
+            </select>
+          </div>
+
+          <div class="form-row" style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="cfgHighlightColor">Word Highlight Color</label>
+              <select id="cfgHighlightColor">
+                <option value="yellow">⚡ Electric Yellow (#00FFFF)</option>
+                <option value="green">🌿 Neon Green (#00FF00)</option>
+                <option value="cyan">💎 Vivid Sky Cyan (#FFFF00)</option>
+                <option value="magenta">🔥 Hot Magenta Pink (#FF00FF)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cfgFont">Caption Typography</label>
+              <select id="cfgFont">
+                <option value="Arial Black">Arial Black (Bold Viral Sans)</option>
+                <option value="Impact">Impact (Shorts / Meme Style)</option>
+                <option value="Arial">Arial Bold (Modern Clean)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="settings-section-title" style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--accent-primary); letter-spacing:0.5px; margin-top:8px;">
+            🤖 AI Analysis & Extraction
+          </div>
+
+          <div class="form-group">
+            <label for="cfgClipCount">Target Number of Output Clips</label>
+            <input type="number" id="cfgClipCount" min="1" max="10" value="5" />
+          </div>
+
+          <div class="form-group">
+            <label for="cfgGeminiKey">Google Gemini API Key (Optional)</label>
+            <input type="password" id="cfgGeminiKey" placeholder="AIzaSy... (Leave empty to use autonomous local AI)" />
+            <span class="field-hint">Enables multimodal deep reasoning via Gemini 3.8 Flash. If empty, local NLP heuristics are used.</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btnSaveSettings" class="btn-primary">Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Drawer / Modal -->
+    <div id="historyModal" class="modal-backdrop hidden">
+      <div class="modal-card modal-large">
+        <div class="modal-header">
+          <h3>📁 Past Video Projects</h3>
+          <button id="btnCloseHistory" class="btn-close">×</button>
+        </div>
+        <div class="modal-body">
+          <div id="projectsList" class="projects-list">
+            <div class="empty-state">No previous projects found.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Application Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <span><b>AIYT Clipper v1.0</b> &bull; Developed by <b>Mohsin Khawaja</b> &bull; 100% Free & Open Source Python Tool</span>
+        <a href="https://www.instagram.com/csib.mohsin/" target="_blank" rel="noopener noreferrer" class="footer-insta">
+          Follow @csib.mohsin on Instagram
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
+
